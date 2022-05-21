@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+
+  aaw_db:
+    ports:
+      - '3306:3306'
+    container_name: aaw_db
+    image: aaw_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=aaw_db
+      - MYSQL_USER=aaw
+      - MYSQL_PASSWORD=2022
+
+  phpmyadmin:
+    container_name: db_client
+    links:
+      - 'aaw_db:db'
+    ports:
+      - '8081:80'
+    image: phpmyadmin
+  
+  aaw_ms:
+    build: .
+    ports:
+      - '4000:4000'
+    env_file: .ms.env
+    image: aaw_ms
+    depends_on:
+      - aaw_db
+    environment:
+      - DB_HOST=aaw_db
+      - DB_PORT=3306
+      - DB_USER=aaw
+      - DB_PASSWORD=2022
+      - DB_NAME=aaw_db
+      - URL=0.0.0.0:4000
