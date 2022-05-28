@@ -3,26 +3,32 @@ version: '3.3'
 services:
 
   aaw_db:
+    image: mariadb
+    restart: always
     ports:
       - '3306:3306'
     container_name: aaw_db
-    image: aaw_db
     environment:
-      - MYSQL_ROOT_PASSWORD=123
-      - MYSQL_DATABASE=aaw_db
-      - MYSQL_USER=aaw
-      - MYSQL_PASSWORD=2022
+      - MARIADB_ROOT_PASSWORD=123
+      - MARIADB_DATABASE=aaw_db
+      - MARIADB_USER=aaw
+      - MARIADB_PASSWORD=2022
 
   phpmyadmin:
-    container_name: db_client
+    container_name: aaw_db_client
     links:
       - 'aaw_db:db'
     ports:
       - '8081:80'
     image: phpmyadmin
+    depends_on:
+      - aaw_db
   
   aaw_ms:
-    build: .
+    build: 
+      context: ./aaw_ms
+      dockerfile: Dockerfile
+    container_name: aaw_ms
     ports:
       - '4000:4000'
     image: aaw_ms
@@ -35,3 +41,10 @@ services:
       - DB_PASSWORD=2022
       - DB_NAME=aaw_db
       - URL=0.0.0.0:4000
+  
+  aaw_ag:
+    build: ./aaw_ag
+    container_name: aaw_ag
+    ports:
+      - '8082:5000'
+    image: aaw_ag
