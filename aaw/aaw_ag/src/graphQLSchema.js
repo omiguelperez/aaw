@@ -9,20 +9,29 @@ import {
 	categoryQueries,
 	categoryTypeDef
 } from './aaw/categories/typeDefs';
+import {
+	productMutations,
+	productQueries,
+	productTypeDef
+} from './aaw/products/typeDefs'
 
 import categoryResolvers from './aaw/categories/resolvers';
+import productResolvers from './aaw/products/resolvers';
 
 // merge the typeDefs
 const mergedTypeDefs = mergeSchemas(
 	[
 		'scalar JSON',
-		categoryTypeDef
+		categoryTypeDef,
+		productTypeDef,
 	],
 	[
-		categoryQueries
+		categoryQueries,
+		productQueries
 	],
 	[
-		categoryMutations
+		categoryMutations,
+		productMutations,
 	]
 );
 
@@ -31,6 +40,7 @@ export default makeExecutableSchema({
 	typeDefs: mergedTypeDefs,
 	resolvers: merge(
 		{ JSON: GraphQLJSON }, // allows scalar JSON
-		categoryResolvers
+		categoryResolvers,
+		productResolvers,
 	)
 });
