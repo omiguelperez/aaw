@@ -5,18 +5,18 @@ const URL = `http://${url}:${port}/${entryPoint}`;
 
 const resolvers = {
 	Query: {
-		allProducts: (_) =>
+		allProduct: (_) =>
 			getRequest(URL, ''),
-		// categoryById: (_, { id }) =>
-			// generalRequest(`${URL}/${id}`, 'GET'),
+		productById: (_, { id }) =>
+			generalRequest(`${URL}/${id}`, 'GET'),
 	},
 	Mutation: {
-		// createCategory: (_, { category }) =>
-		// 	generalRequest(`${URL}/`, 'POST', category),
-		// updateCategory: (_, { id, category }) =>
-		// 	generalRequest(`${URL}/${id}`, 'PUT', category),
-		// deleteCategory: (_, { id }) =>
-		// 	generalRequest(`${URL}/${id}`, 'DELETE')
+		createProduct: (_, { Product }) =>
+			generalRequest(`${URL}/`, 'POST', Product),
+		updateProduct: (_, { id, Product }) =>
+			generalRequest(`${URL}/${id}`, 'PUT', Product),
+		deleteProduct: (_, { id }) =>
+			generalRequest(`${URL}/${id}`, 'DELETE')
 	}
 };
 
