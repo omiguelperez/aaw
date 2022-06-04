@@ -99,3 +99,15 @@ services:
       - "8085:80"
     links:
       - aaw-ldap
+
+  aaw_proxy:
+    build: ./aaw_proxy
+    container_name: aaw_proxy
+    ports:
+      - '80:80'
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+    restart: always
+    logging:
+      options:
+        max-size: 1g
